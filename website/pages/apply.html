@@ -1,0 +1,885 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apply — SOrvReign MotoLift</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .apply-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 28px;
+      align-items: start;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .page-content:has(.apply-grid) { max-width: 1200px; }
+
+    .apply-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 32px 36px;
+      box-shadow: var(--shadow);
+    }
+
+    .faq-card .faq-item {
+      border-bottom: 1px solid var(--border);
+      padding: 10px 0;
+    }
+    .faq-card .faq-item:last-child { border-bottom: none; }
+    .faq-card .faq-q {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      user-select: none;
+    }
+    .faq-card .faq-q:hover { color: var(--green); }
+    .faq-card .faq-q .faq-toggle {
+      font-size: 1rem;
+      transition: transform 0.2s ease;
+      flex-shrink: 0;
+      color: var(--text-muted);
+    }
+    .faq-card .faq-q.open .faq-toggle { transform: rotate(180deg); }
+    .faq-card .faq-a {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.25s ease, padding 0.25s ease;
+      padding: 0 20px 0 0;
+    }
+    .faq-card .faq-a.open { max-height: 200px; padding-top: 6px; }
+
+    /* ── TABS ── */
+    .apply-tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: 4px;
+      margin-bottom: 28px;
+    }
+    .apply-tabs::-webkit-scrollbar { display: none; }
+    .apply-tab {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border-radius: 99px;
+      border: 1.5px solid var(--border);
+      background: var(--card);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .apply-tab:hover { border-color: var(--green); color: var(--text); }
+    .apply-tab.active {
+      background: var(--text);
+      border-color: var(--text);
+      color: var(--green);
+    }
+    .apply-tab .tab-icon {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+    .apply-tab .tab-icon svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ── PROGRESS ── */
+    .apply-progress {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 32px;
+    }
+    .apply-progress .dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 99px;
+      background: var(--border);
+      border: 2px solid transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.5rem;
+      font-weight: 700;
+      color: transparent;
+      transition: all 0.3s ease;
+    }
+    .apply-progress .dot.active {
+      background: var(--green);
+      border-color: var(--green);
+      color: #fff;
+      width: 20px;
+      height: 20px;
+      font-size: 0.6rem;
+    }
+    .apply-progress .dot.done {
+      background: var(--green);
+      border-color: var(--green);
+    }
+    .apply-progress .progress-label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      display: none;
+    }
+    .apply-progress .progress-label.active-label { display: block; }
+    .apply-progress-bar {
+      flex: 1;
+      max-width: 80px;
+      height: 2px;
+      background: var(--border);
+      border-radius: 2px;
+      position: relative;
+    }
+    .apply-progress-bar .fill {
+      height: 100%;
+      background: var(--green);
+      border-radius: 2px;
+      transition: width 0.3s ease;
+      width: 0%;
+    }
+    .progress-step-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 4px;
+    }
+    .progress-step-labels span {
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      text-align: center;
+      flex: 1;
+    }
+    .progress-step-labels span.active-label { color: var(--text); font-weight: 600; }
+
+    /* ── STEP BODY ── */
+    .apply-step { display: none; }
+    .apply-step.active { display: block; }
+
+    .apply-step h3 {
+      font-size: 1.2rem;
+      margin-bottom: 6px;
+    }
+    .apply-step .step-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 5px;
+    }
+    .form-group label .required {
+      color: #c0392b;
+      margin-left: 2px;
+    }
+    .form-group .hint {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    /* ── STEP 2: license / exp / platform grid ── */
+    .choice-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .choice-pill {
+      padding: 10px 18px;
+      border-radius: 99px;
+      border: 1.5px solid var(--border);
+      background: var(--card);
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.18s ease;
+    }
+    .choice-pill:hover { border-color: var(--green); color: var(--text); }
+    .choice-pill.selected {
+      background: var(--text);
+      border-color: var(--text);
+      color: var(--green);
+    }
+    .choice-pill input { display: none; }
+
+    /* ── STEP 3: bike grid ── */
+    .bike-picker {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .bike-card {
+      border-radius: 14px;
+      border: 2px solid var(--border);
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: var(--card);
+    }
+    .bike-card:hover { border-color: var(--green); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.06); }
+    .bike-card.selected {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(26,138,92,0.15);
+    }
+    .bike-card .bike-thumb {
+      width: 100%;
+      height: 110px;
+      object-fit: contain;
+      display: block;
+      background: var(--bg);
+    }
+    .bike-card .bike-info {
+      padding: 10px 12px;
+    }
+    .bike-card .bike-info h4 {
+      font-family: var(--font-body);
+      font-size: 0.78rem;
+      font-weight: 600;
+      margin-bottom: 1px;
+      color: var(--text);
+    }
+    .bike-card .bike-info .bike-type {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+    }
+    .bike-card .bike-info .check {
+      display: none;
+      margin-top: 4px;
+      color: var(--green);
+      font-size: 0.68rem;
+      font-weight: 600;
+    }
+    .bike-card.selected .bike-info .check { display: block; }
+
+    .bike-picker .section-label-sm {
+      grid-column: 1 / -1;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text);
+      padding: 8px 0 4px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 4px;
+    }
+
+    /* ── NAV BUTTONS ── */
+    .form-nav {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      margin-top: 28px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+    .btn-outline {
+      padding: 14px 28px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: 99px;
+      border: 2px solid var(--text);
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-outline:hover { background: var(--text); color: #fff; }
+    .btn-outline:disabled { opacity: 0.3; cursor: not-allowed; border-color: var(--border); color: var(--text-muted); }
+    .btn-outline:disabled:hover { background: transparent; color: var(--text-muted); }
+    .btn-primary {
+      padding: 14px 32px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border-radius: 99px;
+      border: none;
+      background: var(--green);
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-primary:hover { background: #116f47; }
+    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* ── SUCCESS ── */
+    .apply-success {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .apply-success.show { display: block; }
+    .apply-success .success-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 99px;
+      background: var(--green);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 1.6rem;
+    }
+    .apply-success h3 { font-size: 1.4rem; margin-bottom: 6px; }
+    .apply-success p { color: var(--text-muted); font-size: 0.88rem; max-width: 480px; margin: 0 auto; }
+
+    @media (max-width: 800px) {
+      .apply-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .apply-card { padding: 24px 18px; }
+      .form-row { grid-template-columns: 1fr; }
+      .bike-picker { grid-template-columns: 1fr 1fr; }
+      .apply-tab { padding: 10px 16px; font-size: 0.78rem; }
+      .form-nav .btn-primary, .form-nav .btn-outline { padding: 12px 20px; font-size: 0.82rem; }
+    }
+  </style>
+</head>
+<body>
+  <header id="global-header"></header>
+
+  <section>
+    <div class="page-content apply-grid">
+
+      <div class="apply-card">
+
+      <span class="section-label">Get Started</span>
+      <h2>Apply for Financing</h2>
+      <p>Complete the application and our team will respond within 24 hours.</p>
+
+      <!-- TABS -->
+      <div class="apply-tabs" id="applyTabs" role="tablist">
+        <div class="apply-tab active" data-type="refugee" role="tab">
+          <span class="tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></span>
+          Refugee
+        </div>
+        <div class="apply-tab" data-type="youth" role="tab">
+          <span class="tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/></svg></span>
+          Youth
+        </div>
+        <div class="apply-tab" data-type="yvc" role="tab">
+          <span class="tab-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+          YVC
+        </div>
+      </div>
+
+      <!-- PROGRESS -->
+      <div class="apply-progress">
+        <div class="dot active" data-step="1">1</div>
+        <div class="apply-progress-bar"><div class="fill" style="width:0%"></div></div>
+        <div class="dot" data-step="2">2</div>
+        <div class="apply-progress-bar"><div class="fill" style="width:0%"></div></div>
+        <div class="dot" data-step="3">3</div>
+      </div>
+      <div class="progress-step-labels">
+        <span class="active-label">Personal Info</span>
+        <span>Experience</span>
+        <span>Bike Selection</span>
+      </div>
+
+      <!-- FORM -->
+      <form id="applyForm" novalidate>
+
+        <!-- STEP 1 — PERSONAL INFO -->
+        <div class="apply-step active" data-step="1">
+          <h3>Tell us about yourself</h3>
+          <p class="step-desc">We need this info to verify your eligibility and match you with the right financing plan.</p>
+
+          <!-- Shared fields -->
+          <div class="form-row">
+            <div class="form-group">
+              <label>Full Name <span class="required">*</span></label>
+              <input type="text" name="fullName" placeholder="e.g. John Kamau" required>
+            </div>
+            <div class="form-group">
+              <label>Phone (M-Pesa registered) <span class="required">*</span></label>
+              <input type="tel" name="phone" placeholder="e.g. 0712 345 678" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" name="email" placeholder="e.g. john@example.com">
+            </div>
+            <div class="form-group">
+              <label>Date of Birth <span class="required">*</span></label>
+              <input type="date" name="dob" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Gender</label>
+              <select name="gender">
+                <option value="">Select...</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="non-binary">Non-binary / Prefer to self-describe</option>
+                <option value="prefer-not">Prefer not to say</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>County of Residence <span class="required">*</span></label>
+              <select name="county" required>
+                <option value="">Select county...</option>
+                <option>Nairobi</option><option>Mombasa</option><option>Kisumu</option>
+                <option>Kiambu</option><option>Kajiado</option><option>Machakos</option>
+                <option>Nakuru</option><option>Eldoret</option><option>Thika</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Refugee-specific fields -->
+          <div class="step-type-fields" data-for="refugee">
+            <div class="form-row">
+              <div class="form-group">
+                <label>UNHCR Registration ID <span class="required">*</span></label>
+                <input type="text" name="unhcrId" placeholder="e.g. REG-12345-ABCD">
+              </div>
+              <div class="form-group">
+                <label>Country of Origin <span class="required">*</span></label>
+                <select name="originCountry">
+                  <option value="">Select...</option>
+                  <option>Democratic Republic of Congo</option>
+                  <option>South Sudan</option>
+                  <option>Somalia</option>
+                  <option>Rwanda</option>
+                  <option>Burundi</option>
+                  <option>Ethiopia</option>
+                  <option>Uganda</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Current Settlement</label>
+                <input type="text" name="settlement" placeholder="e.g. Kalobeyei, Eastleigh, Kakuma">
+              </div>
+              <div class="form-group">
+                <label>Language Preference <span class="required">*</span></label>
+                <select name="language">
+                  <option value="">Select...</option>
+                  <option>Swahili</option>
+                  <option>French</option>
+                  <option>English</option>
+                  <option>Kinyarwanda</option>
+                  <option>Somali</option>
+                  <option>Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Work Permit Status <span class="required">*</span></label>
+                <select name="workPermit">
+                  <option value="">Select...</option>
+                  <option value="yes">Yes — valid work permit</option>
+                  <option value="pending">Pending — application in process</option>
+                  <option value="no">No — not yet applied</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Movement Restrictions</label>
+                <select name="movement">
+                  <option value="">Select...</option>
+                  <option value="none">None — free movement</option>
+                  <option value="daytime">Daytime only</option>
+                  <option value="settlement">Confined to settlement</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Youth-specific fields -->
+          <div class="step-type-fields" data-for="youth" style="display:none">
+            <div class="form-row">
+              <div class="form-group">
+                <label>National ID Number <span class="required">*</span></label>
+                <input type="text" name="nationalId" placeholder="e.g. 12345678">
+              </div>
+              <div class="form-group">
+                <label>Employment Status</label>
+                <select name="employment">
+                  <option value="">Select...</option>
+                  <option>Employed (full-time)</option>
+                  <option>Employed (part-time)</option>
+                  <option>Self-employed</option>
+                  <option>Unemployed — actively seeking</option>
+                  <option>Student</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Highest Education Level</label>
+              <select name="education">
+                <option value="">Select...</option>
+                <option>Primary</option>
+                <option>Secondary</option>
+                <option>Certificate / Diploma</option>
+                <option>Bachelor's Degree</option>
+                <option>Postgraduate</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- YVC-specific fields -->
+          <div class="step-type-fields" data-for="yvc" style="display:none">
+            <div class="form-row">
+              <div class="form-group">
+                <label>National ID Number <span class="required">*</span></label>
+                <input type="text" name="nationalId" placeholder="e.g. 12345678">
+              </div>
+              <div class="form-group">
+                <label>YVC Reference Code <span class="required">*</span></label>
+                <input type="text" name="yvcCode" placeholder="e.g. YVC-KE-2026-001">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>YVC Mentor Name</label>
+                <input type="text" name="yvcMentor" placeholder="Your YVC mentor's full name">
+              </div>
+              <div class="form-group">
+                <label>Employment Status</label>
+                <select name="employment">
+                  <option value="">Select...</option>
+                  <option>Employed (full-time)</option>
+                  <option>Employed (part-time)</option>
+                  <option>Self-employed</option>
+                  <option>Unemployed — actively seeking</option>
+                  <option>Student</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Highest Education Level</label>
+              <select name="education">
+                <option value="">Select...</option>
+                <option>Primary</option>
+                <option>Secondary</option>
+                <option>Certificate / Diploma</option>
+                <option>Bachelor's Degree</option>
+                <option>Postgraduate</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-nav">
+            <div></div>
+            <button type="button" class="btn-primary" onclick="goStep(2)">Next →</button>
+          </div>
+        </div>
+
+        <!-- STEP 2 — EXPERIENCE & PLATFORM -->
+        <div class="apply-step" data-step="2">
+          <h3>Your experience &amp; platform preferences</h3>
+          <p class="step-desc">This helps us understand your readiness and place you with the right delivery platform.</p>
+
+          <div class="form-group">
+            <label>Do you have a valid driving license? <span class="required">*</span></label>
+            <div class="choice-pills" data-name="license">
+              <label class="choice-pill"><input type="radio" name="license" value="yes"> Yes</label>
+              <label class="choice-pill"><input type="radio" name="license" value="no"> No</label>
+              <label class="choice-pill"><input type="radio" name="license" value="in-progress"> In Progress</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Riding experience <span class="required">*</span></label>
+            <div class="choice-pills" data-name="experience">
+              <label class="choice-pill"><input type="radio" name="experience" value="none"> None — willing to learn</label>
+              <label class="choice-pill"><input type="radio" name="experience" value="less1"> Less than 1 year</label>
+              <label class="choice-pill"><input type="radio" name="experience" value="1-3"> 1–3 years</label>
+              <label class="choice-pill"><input type="radio" name="experience" value="3+"> 3+ years</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Which platform(s) would you like to work with? <span class="required">*</span></label>
+            <div class="choice-pills" data-name="platform">
+              <label class="choice-pill"><input type="checkbox" name="platform" value="bolt"> Bolt</label>
+              <label class="choice-pill"><input type="checkbox" name="platform" value="glovo"> Glovo</label>
+              <label class="choice-pill"><input type="checkbox" name="platform" value="uber"> Uber / Uber Eats</label>
+              <label class="choice-pill"><input type="checkbox" name="platform" value="faras"> Faras</label>
+              <label class="choice-pill"><input type="checkbox" name="platform" value="any"> Any available</label>
+            </div>
+            <div class="hint">Select all that apply.</div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Preferred location <span class="required">*</span></label>
+              <select name="location" required>
+                <option value="">Select...</option>
+                <option>Nairobi</option>
+                <option>Mombasa</option>
+                <option>Kisumu</option>
+                <option>Nakuru</option>
+                <option>Eldoret</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Do you own a smartphone? <span class="required">*</span></label>
+              <div class="choice-pills" data-name="smartphone">
+                <label class="choice-pill"><input type="radio" name="smartphone" value="yes"> Yes</label>
+                <label class="choice-pill"><input type="radio" name="smartphone" value="no"> No</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Are you comfortable using GPS / maps for navigation?</label>
+            <div class="choice-pills" data-name="gps">
+              <label class="choice-pill"><input type="radio" name="gps" value="yes"> Yes — confident</label>
+              <label class="choice-pill"><input type="radio" name="gps" value="somewhat"> Somewhat — willing to learn</label>
+              <label class="choice-pill"><input type="radio" name="gps" value="no"> Not comfortable</label>
+            </div>
+          </div>
+
+          <div class="form-nav">
+            <button type="button" class="btn-outline" onclick="goStep(1)">← Back</button>
+            <button type="button" class="btn-primary" onclick="goStep(3)">Next →</button>
+          </div>
+        </div>
+
+        <!-- STEP 3 — BIKE SELECTION -->
+        <div class="apply-step" data-step="3">
+          <h3>Choose your motorcycle</h3>
+          <p class="step-desc">Pick the bike you'd like to finance. You'll work out the specific plan (deposit + tier) with our team after your application is approved.</p>
+
+          <div class="bike-picker" id="bikePicker">
+            <div class="section-label-sm">Electric — zero fuel, lower daily cost</div>
+
+            <div class="bike-card" data-bike="spiro">
+              <img class="bike-thumb" src="../images/spiro/Spiro%20450%20M1%20Ekon.jpg" alt="Spiro M1 Ekon" loading="lazy">
+              <div class="bike-info">
+                <h4>Spiro M1 Ekon</h4>
+                <span class="bike-type">Electric · Swappable battery</span>
+                <span class="check">✓ Selected</span>
+              </div>
+            </div>
+
+            <div class="bike-card" data-bike="cheche">
+              <img class="bike-thumb" src="../images/cheche/cheche%20bike%20electric%2013.jpg" alt="Cheche TailG" loading="lazy">
+              <div class="bike-info">
+                <h4>Cheche TailG</h4>
+                <span class="bike-type">Electric · Urban delivery</span>
+                <span class="check">✓ Selected</span>
+              </div>
+            </div>
+
+            <div class="bike-card" data-bike="tankvolt">
+              <img class="bike-thumb" src="../images/tankvolt/TankVolt%20T21-RED.jpg" alt="Tankvolt T21" loading="lazy">
+              <div class="bike-info">
+                <h4>Tankvolt T21</h4>
+                <span class="bike-type">Electric · Long range</span>
+                <span class="check">✓ Selected</span>
+              </div>
+            </div>
+
+            <div class="bike-card" data-bike="enzi">
+              <img class="bike-thumb" src="../images/enzi/Enzi%20G5%20(2).jpg" alt="Enzi G5 RADI" loading="lazy">
+              <div class="bike-info">
+                <h4>Enzi G5 RADI</h4>
+                <span class="bike-type">Electric · Heavy duty</span>
+                <span class="check">✓ Selected</span>
+              </div>
+            </div>
+
+            <div class="section-label-sm" style="margin-top:8px">Petrol — traditional fuel option</div>
+
+            <div class="bike-card" data-bike="boxer">
+              <img class="bike-thumb" src="../images/petrol/boxer%20mortocycles.jpg" alt="Boxer" loading="lazy">
+              <div class="bike-info">
+                <h4>Boxer</h4>
+                <span class="bike-type">Petrol · 100cc</span>
+                <span class="check">✓ Selected</span>
+              </div>
+            </div>
+
+            <div class="bike-card" data-bike="ranger">
+              <img class="bike-thumb" src="../images/petrol/ranger%20mortocycles.jpg" alt="Ranger" loading="lazy">
+              <div class="bike-info">
+                <h4>Ranger</h4>
+                <span class="bike-type">Petrol · 125cc</span>
+                <span class="check">✓ Selected</span>
+              </div>
+            </div>
+
+            <div class="bike-card" data-bike="tvs">
+              <img class="bike-thumb" src="../images/petrol/tvs%20mortocycles.jpg" alt="TVS" loading="lazy">
+              <div class="bike-info">
+                <h4>TVS</h4>
+                <span class="bike-type">Petrol · 110cc</span>
+                <span class="check">✓ Selected</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Preferred deposit range</label>
+              <select name="depositPreference">
+                <option value="">Flexible — whatever works</option>
+                <option>KES 5,000 – 10,000</option>
+                <option>KES 10,000 – 20,000</option>
+                <option>KES 15,000 – 30,000</option>
+                <option>KES 20,000+</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>How did you hear about us?</label>
+              <select name="referral">
+                <option value="">Select...</option>
+                <option>Friend / Family</option>
+                <option>Social Media</option>
+                <option>YVC Kenya</option>
+                <option>Community Outreach</option>
+                <option>Boda Boda Group</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Questions or notes for the team</label>
+            <textarea name="notes" placeholder="Anything you'd like us to know about your situation, timeline, or preferences..."></textarea>
+          </div>
+
+          <div class="form-nav">
+            <button type="button" class="btn-outline" onclick="goStep(2)">← Back</button>
+            <button type="button" class="btn-primary" onclick="submitForm()">Submit Application</button>
+          </div>
+        </div>
+
+      </form>
+
+      <!-- SUCCESS -->
+      <div class="apply-success" id="applySuccess">
+        <div class="success-icon">✓</div>
+        <h3>Application submitted!</h3>
+        <p>Thank you for applying to SOrvReign MotoLift. Our team will review your application and contact you at the phone number you provided within 24 hours.</p>
+        <p style="margin-top:12px;font-size:0.82rem;color:var(--text-muted)">If you are a refugee applicant, a community liaison may reach out in your preferred language to support you through the next steps.</p>
+      </div>
+
+      </div><!-- /apply-card (form) -->
+
+      <div class="apply-card faq-card">
+        <h3 style="font-size:1rem;margin-bottom:14px;color:var(--text)">Quick Answers</h3>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            What documents do I need?
+            <span class="faq-toggle">▾</span>
+          </div>
+          <div class="faq-a">Kenyan nationals need a national ID. Refugees need a UNHCR registration certificate. A driving licence is helpful but not required to apply.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            How long does approval take?
+            <span class="faq-toggle">▾</span>
+          </div>
+          <div class="faq-a">We respond within 24 hours. Full approval and onboarding is typically completed within 3–7 days, depending on document verification and platform registration.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            Do I need a driving licence?
+            <span class="faq-toggle">▾</span>
+          </div>
+          <div class="faq-a">Not to apply. We finance training for riders without a licence. You will need one before operating on delivery platforms, and we help you get it.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            Is there an application fee?
+            <span class="faq-toggle">▾</span>
+          </div>
+          <div class="faq-a">No. Applying is completely free. There are no upfront fees at any stage — financing is structured into your daily repayment plan.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            No riding experience — can I still apply?
+            <span class="faq-toggle">▾</span>
+          </div>
+          <div class="faq-a">Absolutely. Many of our riders start with zero experience. We provide basic training and pair you with experienced riders during your first weeks.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            Can I change my bike later?
+            <span class="faq-toggle">▾</span>
+          </div>
+          <div class="faq-a">Yes. The bike you select now is your preference. Final selection happens during onboarding once you've seen each bike and discussed options with our team.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            What if I don't have a smartphone?
+            <span class="faq-toggle">▾</span>
+          </div>
+          <div class="faq-a">A smartphone is needed for delivery apps and GPS navigation. We can help you access an affordable device through our device financing add-on. Let us know in your notes.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            What languages are available?
+            <span class="faq-toggle">▾</span>
+          </div>
+          <div class="faq-a">Our team and community liaisons support English, Swahili, French, Kinyarwanda, and Somali. We match you with a liaison who speaks your language.</div>
+        </div>
+
+        <div style="margin-top:16px;padding:14px;background:var(--bg-alt);border-radius:10px;text-align:center">
+          <p style="font-size:0.78rem;color:var(--text-muted);margin-bottom:8px">Still have questions?</p>
+          <a href="../pages/contactus.html" class="btn" style="display:inline-block;font-size:0.8rem;padding:10px 20px">Contact Us</a>
+        </div>
+      </div><!-- /apply-card (faq) -->
+
+    </div><!-- /apply-grid -->
+  </section>
+
+  <footer id="global-footer"></footer>
+  <script src="../js/components.js"></script>
+  <script src="../js/apply.js"></script>
+</body>
+</html>

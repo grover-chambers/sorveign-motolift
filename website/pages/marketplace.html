@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Motorcycles — SOrvReign MotoLift</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header id="global-header"></header>
+
+  <section>
+    <span class="section-label">Our Fleet</span>
+    <h2>Browse motorcycles</h2>
+    <p class="section-sub">Choose from our full range of electric and petrol motorcycles. Use the filters to find the right bike for you.</p>
+
+    <button class="filter-toggle" id="filterToggle">Hide Filters</button>
+
+    <div class="filter-bar" id="filterBar">
+      <div class="filter-group filter-group-type">
+        <label class="filter-pill"><input type="checkbox" value="electric" checked onchange="applyFilters()"> Electric</label>
+        <label class="filter-pill"><input type="checkbox" value="petrol" checked onchange="applyFilters()"> Petrol</label>
+      </div>
+      <span class="filter-divider"></span>
+      <div class="filter-group filter-group-model">
+        <label class="filter-pill"><input type="checkbox" value="spiro" checked onchange="applyFilters()"> Spiro</label>
+        <label class="filter-pill"><input type="checkbox" value="cheche" checked onchange="applyFilters()"> Cheche</label>
+        <label class="filter-pill"><input type="checkbox" value="tankvolt" checked onchange="applyFilters()"> Tankvolt</label>
+        <label class="filter-pill"><input type="checkbox" value="enzi" checked onchange="applyFilters()"> Enzi</label>
+        <label class="filter-pill"><input type="checkbox" value="boxer" checked onchange="applyFilters()"> Boxer</label>
+        <label class="filter-pill"><input type="checkbox" value="tvs" checked onchange="applyFilters()"> TVS</label>
+        <label class="filter-pill"><input type="checkbox" value="ranger" checked onchange="applyFilters()"> Ranger</label>
+      </div>
+    </div>
+
+    <div class="marketplace-layout">
+      <div class="bikes-area">
+        <div class="bike-grid" id="bikeGridMarket">
+          <div class="bike-card" data-model="spiro" data-type="electric">
+            <img src="../images/spiro/Spiro 450 M1 Ekon.jpg" alt="Spiro M1 Ekon">
+            <span class="bike-tag bike-tag-ev">Electric</span>
+            <h3>Spiro M1 Ekon</h3>
+            <div class="bike-specs">
+              <span class="bike-spec">Battery swap</span>
+              <span class="bike-spec">Low maintenance</span>
+            </div>
+            <p>Battery-swap network across Nairobi. Zero emissions, ideal for urban delivery. Starting from KES 270/day.</p>
+            <p class="bike-price">From KES 10,000 deposit</p>
+            <div class="bike-actions">
+              <a href="bike-details.html?bike=spiro" class="btn btn-primary">View Details</a>
+              <a href="apply.html" class="btn">Apply</a>
+            </div>
+          </div>
+
+          <div class="bike-card" data-model="cheche" data-type="electric">
+            <img src="../images/cheche/Cheche TailG.jpg" alt="Cheche TailG">
+            <span class="bike-tag bike-tag-ev">Electric</span>
+            <h3>Cheche TailG</h3>
+            <div class="bike-specs">
+              <span class="bike-spec">Extended range</span>
+              <span class="bike-spec">Rapid charge</span>
+            </div>
+            <p>Kenya-built e-motorcycle with extended range and rapid charging. Built for African roads. Starting from KES 585/day.</p>
+            <p class="bike-price">From KES 10,000 deposit</p>
+            <div class="bike-actions">
+              <a href="bike-details.html?bike=cheche" class="btn btn-primary">View Details</a>
+              <a href="apply.html" class="btn">Apply</a>
+            </div>
+          </div>
+
+          <div class="bike-card" data-model="tankvolt" data-type="electric">
+            <img src="../images/tankvolt/TankVolt T21.jpg" alt="Tankvolt T21">
+            <span class="bike-tag bike-tag-ev">Electric</span>
+            <h3>Tankvolt T21</h3>
+            <div class="bike-specs">
+              <span class="bike-spec">88 km/h top</span>
+              <span class="bike-spec">95–105 km range</span>
+              <span class="bike-spec">2,200 cycles</span>
+            </div>
+            <p>Powerful urban e-motorcycle with impressive range and battery life. Built for serious daily deliveries. Starting from KES 555/day.</p>
+            <p class="bike-price">From KES 10,000 deposit</p>
+            <div class="bike-actions">
+              <a href="bike-details.html?bike=tankvolt" class="btn btn-primary">View Details</a>
+              <a href="apply.html" class="btn">Apply</a>
+            </div>
+          </div>
+
+          <div class="bike-card" data-model="enzi" data-type="electric">
+            <img src="../images/enzi/Enzi G5 (2).jpg" alt="Enzi G5 RADI">
+            <span class="bike-tag bike-tag-ev">Electric</span>
+            <h3>Enzi G5 RADI</h3>
+            <div class="bike-specs">
+              <span class="bike-spec">Premium build</span>
+              <span class="bike-spec">Long range</span>
+              <span class="bike-spec">High capacity</span>
+            </div>
+            <p>Premium Kenyan e-motorcycle with robust build and long-range capability. Built for maximum daily earnings. Starting from KES 675/day.</p>
+            <p class="bike-price">From KES 10,000 deposit</p>
+            <div class="bike-actions">
+              <a href="bike-details.html?bike=enzi" class="btn btn-primary">View Details</a>
+              <a href="apply.html" class="btn">Apply</a>
+            </div>
+          </div>
+
+          <div class="bike-card" data-model="boxer" data-type="petrol">
+            <img src="../images/petrol/boxer mortocycles.jpg" alt="Boxer Motorcycle">
+            <span class="bike-tag bike-tag-petrol">Petrol</span>
+            <h3>Boxer</h3>
+            <div class="bike-specs">
+              <span class="bike-spec">Fuel-efficient</span>
+              <span class="bike-spec">Reliable</span>
+            </div>
+            <p>Reliable, fuel-efficient, built for daily city and delivery work. A trusted choice for Kenyan riders.</p>
+            <p class="bike-price">KES 450/day</p>
+            <div class="bike-actions">
+              <a href="bike-details.html?bike=boxer" class="btn btn-primary">View Details</a>
+              <a href="apply.html" class="btn">Apply</a>
+            </div>
+          </div>
+
+          <div class="bike-card" data-model="tvs" data-type="petrol">
+            <img src="../images/petrol/tvs mortocycles.jpg" alt="TVS Motorcycle">
+            <span class="bike-tag bike-tag-petrol">Petrol</span>
+            <h3>TVS</h3>
+            <div class="bike-specs">
+              <span class="bike-spec">Dependable</span>
+              <span class="bike-spec">Strong mileage</span>
+            </div>
+            <p>Strong performance and dependable mileage for last-mile riders. Built to handle demanding daily routes.</p>
+            <p class="bike-price">KES 500/day</p>
+            <div class="bike-actions">
+              <a href="bike-details.html?bike=tvs" class="btn btn-primary">View Details</a>
+              <a href="apply.html" class="btn">Apply</a>
+            </div>
+          </div>
+
+          <div class="bike-card" data-model="ranger" data-type="petrol">
+            <img src="../images/petrol/ranger mortocycles.jpg" alt="Ranger Motorcycle">
+            <span class="bike-tag bike-tag-petrol">Petrol</span>
+            <h3>Ranger</h3>
+            <div class="bike-specs">
+              <span class="bike-spec">Durable</span>
+              <span class="bike-spec">All-terrain</span>
+            </div>
+            <p>Built for durability and longer-distance work in all conditions. A rugged choice for serious riders.</p>
+            <p class="bike-price">KES 420/day</p>
+            <div class="bike-actions">
+              <a href="bike-details.html?bike=ranger" class="btn btn-primary">View Details</a>
+              <a href="apply.html" class="btn">Apply</a>
+            </div>
+          </div>
+        </div>
+
+        <div id="noResults" style="display:none;text-align:center;padding:60px 20px;color:var(--text-muted)">
+          <p style="font-size:1.2rem;margin-bottom:8px">No motorcycles match your filters</p>
+          <p>Try selecting different filter options.</p>
+        </div>
+      </div>
+
+      <aside class="calc-sidebar" id="calcSidebar">
+        <div id="motoCalc"></div>
+      </aside>
+    </div>
+  </section>
+
+  <footer id="global-footer"></footer>
+  <script src="../js/components.js"></script>
+  <script src="../js/calculator.js"></script>
+  <script>
+    function applyFilters() {
+      var pills = document.querySelectorAll('#filterBar .filter-pill input[type="checkbox"]');
+      var typeVals = {}, modelVals = {};
+      pills.forEach(function (cb) {
+        if (cb.closest('.filter-group-type')) {
+          typeVals[cb.value] = cb.checked;
+        } else {
+          modelVals[cb.value] = cb.checked;
+        }
+      });
+
+      var cards = document.querySelectorAll('#bikeGridMarket .bike-card');
+      var visible = 0;
+      cards.forEach(function (card) {
+        var type = card.dataset.type;
+        var model = card.dataset.model;
+        var show = typeVals[type] && modelVals[model];
+        card.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+
+      document.getElementById('noResults').style.display = visible === 0 ? 'block' : 'none';
+    }
+
+    document.getElementById('filterToggle').addEventListener('click', function () {
+      var bar = document.getElementById('filterBar');
+      bar.classList.toggle('collapsed');
+      this.textContent = bar.classList.contains('collapsed') ? 'Show Filters' : 'Hide Filters';
+    });
+  </script>
+</body>
+</html>

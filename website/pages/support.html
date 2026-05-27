@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Support — SOrvReign MotoLift</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    /* ── HERO ── */
+    .support-hero {
+      background: linear-gradient(135deg, #061018 0%, #0a1f2e 100%);
+      color: #fff;
+      text-align: center;
+      padding: 72px 6% 64px;
+      border-radius: 24px;
+      margin: 0 6% 48px;
+    }
+    .support-hero h2 { color: #fff; font-size: 2.2rem; }
+    .support-hero p { color: rgba(255,255,255,0.65); max-width: 600px; margin: 0.8rem auto 0; font-size: 0.95rem; }
+    .support-hero .hero-badge {
+      display: inline-block;
+      background: rgba(201,168,76,0.15);
+      color: var(--green);
+      padding: 5px 16px;
+      border-radius: 99px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+    }
+
+    /* ── CONTACT CHANNELS ── */
+    .contact-strip {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin: -16px auto 40px;
+      max-width: 800px;
+    }
+    .contact-strip a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border-radius: 99px;
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+    .contact-strip a:hover { border-color: var(--green); transform: translateY(-2px); }
+    .contact-strip a svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+    /* ── TABS ── */
+    .support-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 28px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .support-tabs::-webkit-scrollbar { display: none; }
+    .support-tab {
+      flex-shrink: 0;
+      padding: 11px 22px;
+      border-radius: 99px;
+      border: 1.5px solid var(--border);
+      background: var(--card);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .support-tab:hover { border-color: var(--green); color: var(--text); }
+    .support-tab.active { background: var(--text); border-color: var(--text); color: var(--green); }
+
+    .support-panel { display: none; }
+    .support-panel.active { display: block; }
+
+    .support-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .support-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      border-left: 3px solid var(--green);
+      transition: transform 0.2s ease;
+    }
+    .support-card:hover { transform: translateY(-2px); }
+    .support-card h4 {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .support-card p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin: 0;
+    }
+
+    /* ── ACTIVE RIDER ── */
+    .rider-support-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 12px;
+    }
+    .rider-support-item {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 18px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+    .rider-support-item .rider-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 99px;
+      background: var(--bg-alt);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 8px;
+    }
+    .rider-support-item .rider-icon svg { width: 18px; height: 18px; stroke: var(--text); }
+    .rider-support-item h4 { font-size: 0.8rem; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+    .rider-support-item p { font-size: 0.7rem; color: var(--text-muted); margin: 0; }
+
+    /* ── FAQ ── */
+    .faq-wrap { max-width: 680px; margin: 0 auto; }
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      padding: 12px 0;
+    }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      user-select: none;
+    }
+    .faq-q:hover { color: var(--green); }
+    .faq-q .faq-toggle { font-size: 1rem; transition: transform 0.2s ease; flex-shrink: 0; color: var(--text-muted); }
+    .faq-q.open .faq-toggle { transform: rotate(180deg); }
+    .faq-a {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.25s ease, padding 0.25s ease;
+      padding: 0 20px 0 0;
+    }
+    .faq-a.open { max-height: 200px; padding-top: 6px; }
+
+    @media (max-width: 700px) {
+      .support-hero { padding: 48px 5% 40px; margin: 0 0 32px; border-radius: 0; }
+      .support-hero h2 { font-size: 1.6rem; }
+      .contact-strip a { flex: 1; justify-content: center; min-width: 120px; }
+    }
+  </style>
+</head>
+<body>
+  <header id="global-header"></header>
+
+  <!-- HERO -->
+  <section class="support-hero">
+    <span class="hero-badge">We're here for you</span>
+    <h2>Support tailored to who you are.</h2>
+    <p>Refugee, youth, or YVC — we meet you where you are. Multilingual guidance, community-trusted support, and dedicated channels for every rider.</p>
+  </section>
+
+  <!-- CONTACT CHANNELS -->
+  <div class="contact-strip">
+    <a href="#">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      WhatsApp
+    </a>
+    <a href="tel:+254717316793">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      +254 717 316 793
+    </a>
+    <a href="mailto:crescentkasuki@gmail.com">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      Email
+    </a>
+    <a href="contacts.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      Visit Us
+    </a>
+  </div>
+
+  <!-- SUPPORT BY APPLICANT TYPE -->
+  <section>
+    <span class="section-label">By Applicant Type</span>
+    <h2>Support that fits your situation.</h2>
+    <p class="section-sub">Every rider gets the same quality of support, delivered in the way that works best for you.</p>
+
+    <div class="support-tabs" id="supportTabs">
+      <div class="support-tab active" data-panel="refugee">Refugee</div>
+      <div class="support-tab" data-panel="youth">Youth</div>
+      <div class="support-tab" data-panel="yvc">YVC</div>
+    </div>
+
+    <!-- REFUGEE PANEL -->
+    <div class="support-panel active" data-panel="refugee">
+      <div class="support-grid">
+        <div class="support-card">
+          <h4>Documentation Help</h4>
+          <p>We help with UNHCR registration, asylum seeker cards, RAS documentation, and any paperwork needed for delivery platform onboarding.</p>
+        </div>
+        <div class="support-card">
+          <h4>Community Liaisons</h4>
+          <p>Trusted liaisons from DRC, South Sudan, and Rwanda communities guide you in your own language — every step of the way.</p>
+        </div>
+        <div class="support-card">
+          <h4>Multilingual Support</h4>
+          <p>Application assistance, training, and ongoing support available in English, Swahili, French, Kinyarwanda, and Somali.</p>
+        </div>
+        <div class="support-card">
+          <h4>Platform Onboarding</h4>
+          <p>End-to-end support registering on Bolt, Uber, Glovo, and Faras — from app setup to your first paid ride or delivery.</p>
+        </div>
+        <div class="support-card">
+          <h4>Work Permit Guidance</h4>
+          <p>We help you understand work permit requirements, track your application status, and connect with legal aid if needed.</p>
+        </div>
+        <div class="support-card">
+          <h4>Build Credit History</h4>
+          <p>M-Pesa repayments tracked through MotoLift build formal financial history — opening doors to loans, insurance, and more.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- YOUTH PANEL -->
+    <div class="support-panel" data-panel="youth">
+      <div class="support-grid">
+        <div class="support-card">
+          <h4>Smartphone &amp; GPS Training</h4>
+          <p>Hands-on training to use delivery apps, navigate with Google Maps, and manage your rider dashboard effectively.</p>
+        </div>
+        <div class="support-card">
+          <h4>Financial Literacy</h4>
+          <p>Workshops on budgeting, saving, M-Pesa management, and understanding your financing plan — so you stay in control.</p>
+        </div>
+        <div class="support-card">
+          <h4>Rider Mentorship</h4>
+          <p>Paired with an experienced rider for your first month. Learn the best routes, earnings strategies, and platform tips.</p>
+        </div>
+        <div class="support-card">
+          <h4>Career Pathways</h4>
+          <p>From rider to fleet owner — we help you understand how consistent repayment unlocks bike ownership and expansion.</p>
+        </div>
+        <div class="support-card">
+          <h4>Flexible Scheduling</h4>
+          <p>Work around your current commitments. We help you build a riding schedule that fits your studies, job, or family needs.</p>
+        </div>
+        <div class="support-card">
+          <h4>Peer Network</h4>
+          <p>Join a WhatsApp group of fellow youth riders. Share tips, routes, and support each other through the journey.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- YVC PANEL -->
+    <div class="support-panel" data-panel="yvc">
+      <div class="support-grid">
+        <div class="support-card">
+          <h4>Mentor Coordination</h4>
+          <p>Your YVC mentor works alongside our team to ensure you get the support you need — from application through to active riding.</p>
+        </div>
+        <div class="support-card">
+          <h4>Reference Code Support</h4>
+          <p>We verify your YVC reference code and fast-track your application. Your YVC affiliation is recognised throughout the process.</p>
+        </div>
+        <div class="support-card">
+          <h4>Group Training Sessions</h4>
+          <p>Train alongside fellow YVC members in group cohorts. Learn together, ride together, grow together.</p>
+        </div>
+        <div class="support-card">
+          <h4>Community-Trusted Onboarding</h4>
+          <p>YVC Kenya provides the on-the-ground credibility that makes refugee and youth outreach meaningful and trusted.</p>
+        </div>
+        <div class="support-card">
+          <h4>Progress Tracking</h4>
+          <p>Your YVC mentor and our team share progress updates — so your community network stays informed and supportive.</p>
+        </div>
+        <div class="support-card">
+          <h4>Impact Reporting</h4>
+          <p>Quarterly reports shared with YVC Kenya on your earnings, repayment consistency, and overall rider journey.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACTIVE RIDER SUPPORT -->
+  <section style="background:var(--bg-alt)">
+    <span class="section-label">Already a Rider?</span>
+    <h2>Ongoing support for active riders.</h2>
+    <p class="section-sub">Once you're on the road, we've got your back with these services.</p>
+    <div class="rider-support-grid">
+      <div class="rider-support-item">
+        <div class="rider-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h2"/><path d="M14 12h4"/><path d="M14 8v-2a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></div>
+        <h4>M-Pesa Support</h4>
+        <p>Payment issues, missed deductions, or repayment questions — resolved within hours.</p>
+      </div>
+      <div class="rider-support-item">
+        <div class="rider-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+        <h4>Bike Maintenance</h4>
+        <p>Access to partner mechanics. Routine service and emergency repairs covered under your plan.</p>
+      </div>
+      <div class="rider-support-item">
+        <div class="rider-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+        <h4>Platform Help</h4>
+        <p>Bolt, Glovo, Uber, Faras account issues — we escalate directly with platform support teams.</p>
+      </div>
+      <div class="rider-support-item">
+        <div class="rider-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+        <h4>Emergency Support</h4>
+        <p>Roadside assistance hotline. Breakdown? Accident? Call us — we dispatch help immediately.</p>
+      </div>
+      <div class="rider-support-item">
+        <div class="rider-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg></div>
+        <h4>Insurance Claims</h4>
+        <p>We guide you through the insurance process — theft, damage, or accident claims handled end-to-end.</p>
+      </div>
+      <div class="rider-support-item">
+        <div class="rider-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="M10.85 12.15L19 4"/><path d="M18 5l2-2"/></svg></div>
+        <h4>Replacement Bike</h4>
+        <p>If your bike needs extended repairs, we provide a replacement so you keep earning while waiting.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section>
+    <span class="section-label">FAQs</span>
+    <h2>Common questions.</h2>
+    <p class="section-sub" style="margin-bottom:28px">Quick answers to what riders ask us most.</p>
+    <div class="faq-wrap">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          How do I contact support? <span class="faq-toggle">▾</span>
+        </div>
+        <div class="faq-a">WhatsApp is fastest — reply within 30 minutes during business hours. Email within 4 hours. Phone support available Mon–Sat, 7am–7pm.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          What languages is support available in? <span class="faq-toggle">▾</span>
+        </div>
+        <div class="faq-a">English, Swahili, French, Kinyarwanda, and Somali. Refugee applicants are matched with a community liaison who speaks their language.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          What if I have a problem with my M-Pesa payments? <span class="faq-toggle">▾</span>
+        </div>
+        <div class="faq-a">Contact us via WhatsApp or phone. We can reverse failed deductions, correct overpayments, and adjust schedules within 24 hours.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          My bike broke down — what do I do? <span class="faq-toggle">▾</span>
+        </div>
+        <div class="faq-a">Call our emergency hotline. We'll dispatch a mechanic or arrange a tow. If repairs take more than 48 hours, we provide a replacement bike.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Can I switch from one applicant type to another? <span class="faq-toggle">▾</span>
+        </div>
+        <div class="faq-a">Yes. If your status changes — for example, a refugee who later qualifies as a youth applicant — we update your profile and adjust your support accordingly.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Is there in-person support available? <span class="faq-toggle">▾</span>
+        </div>
+        <div class="faq-a">Yes. We have drop-in centres in Nairobi (CBD and Eastleigh) and regular outreach in Kakuma and Kalobeyei. Check our Contact Us page for addresses and hours.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer id="global-footer"></footer>
+  <script src="../js/components.js"></script>
+  <script>
+    // Tab switching
+    document.querySelectorAll('.support-tab').forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        var panel = tab.getAttribute('data-panel');
+        document.querySelectorAll('.support-tab').forEach(function (t) { t.classList.remove('active'); });
+        tab.classList.add('active');
+        document.querySelectorAll('.support-panel').forEach(function (p) {
+          p.classList.toggle('active', p.getAttribute('data-panel') === panel);
+        });
+      });
+    });
+
+    // FAQ accordion
+    function toggleFaq(el) {
+      el.classList.toggle('open');
+      var answer = el.nextElementSibling;
+      if (answer) answer.classList.toggle('open');
+    }
+  </script>
+</body>
+</html>

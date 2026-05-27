@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Partners — SOrvReign MotoLift</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .partner-grid {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .partner-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 32px 36px;
+      box-shadow: var(--shadow);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      display: flex;
+      flex-direction: column;
+    }
+    .partner-card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.08); }
+
+    .partner-card .pc-logo {
+      max-height: 72px;
+      width: auto;
+      max-width: 60%;
+      display: block;
+      margin: 0 auto 20px;
+      object-fit: contain;
+    }
+    .partner-card .pc-logo-sm {
+      max-height: 50px;
+      width: auto;
+      max-width: 50%;
+      display: block;
+      margin: 0 auto 18px;
+      object-fit: contain;
+    }
+
+    .partner-card h3 {
+      text-align: center;
+      margin-bottom: 6px;
+      font-size: 1.15rem;
+    }
+    .partner-card .pc-why {
+      font-size: 0.92rem;
+      color: var(--text);
+      line-height: 1.6;
+      margin-bottom: 14px;
+      flex: 1;
+    }
+    .partner-card .pc-value {
+      font-size: 0.85rem;
+      color: var(--green);
+      font-weight: 600;
+      padding: 12px 16px;
+      background: var(--bg-alt);
+      border-radius: 10px;
+      border-left: 4px solid var(--green);
+      line-height: 1.5;
+    }
+
+    .partner-section-label {
+      grid-column: 1 / -1;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 12px 0 4px;
+      border-bottom: 1px solid var(--border);
+      margin: 20px 0 6px;
+    }
+
+    /* ── BRAND SHOWCASE ── */
+    .brand-showcase {
+      background: var(--bg-alt);
+      border-radius: var(--radius);
+      padding: 36px 32px;
+      margin-top: 48px;
+      text-align: center;
+    }
+    .brand-showcase h3 {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .brand-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 8px 16px;
+    }
+    .brand-row .brand-name {
+      font-weight: 700;
+      font-size: 1.1rem;
+      white-space: nowrap;
+      padding: 4px 8px;
+    }
+    .brand-row .brand-sep {
+      color: var(--border);
+      font-size: 0.9rem;
+      user-select: none;
+    }
+
+    @media (max-width: 700px) {
+      .partner-grid { grid-template-columns: 1fr; }
+      .partner-card { padding: 24px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <header id="global-header"></header>
+
+  <section>
+    <span class="section-label">Partners</span>
+    <h2>Our Partners</h2>
+    <p class="section-sub">We work with leading delivery platforms, electric mobility companies, and community organisations to build a complete ecosystem for our riders.</p>
+    <div class="partner-grid">
+
+      <!-- ── DELIVERY PLATFORMS ── -->
+      <div class="partner-section-label">Delivery Platforms</div>
+
+      <div class="partner-card" style="text-align:center">
+        <img class="pc-logo" src="../images/logos/logo-bolt.png" alt="Bolt">
+        <h3>Bolt</h3>
+        <p class="pc-why">Kenya's largest ride-hailing and food delivery platform with the highest order volume in Nairobi. Our primary onboarding corridor for new riders.</p>
+        <p class="pc-value">Riders earn immediately on Bolt's network from day one of financing. Flexible hours, daily cash-outs, and a massive customer base mean consistent income.</p>
+      </div>
+
+      <div class="partner-card" style="text-align:center">
+        <img class="pc-logo" src="../images/logos/logo-glovo.png" alt="Glovo">
+        <h3>Glovo</h3>
+        <p class="pc-why">Fast-growing last-mile delivery platform across Nairobi with shorter delivery routes ideal for new riders building confidence.</p>
+        <p class="pc-value">Glovo's delivery-focus means predictable routes and tips. Preferred launch platform for riders with zero delivery experience.</p>
+      </div>
+
+      <div class="partner-card" style="text-align:center">
+        <img class="pc-logo" src="../images/logos/logo-ubereats.png" alt="Uber / Uber Eats">
+        <h3>Uber / Uber Eats</h3>
+        <p class="pc-why">Global ride-hailing and delivery giant operating in Kenya. Access to both passenger and delivery markets from a single account.</p>
+        <p class="pc-value">Dual earning streams — riders can switch between Uber rides and Uber Eats deliveries. Global brand recognition opens future mobility opportunities.</p>
+      </div>
+
+      <div class="partner-card" style="text-align:center">
+        <img class="pc-logo" src="../images/logos/logo-faras.jpeg" alt="Faras">
+        <h3>Faras</h3>
+        <p class="pc-why">Kenya-based digital transport platform with deep local market knowledge and flexible rider onboarding requirements.</p>
+        <p class="pc-value">Reduces dependency on international platforms. Faras' local-first approach means faster support and Kenyan-market-specific earnings optimisations.</p>
+      </div>
+
+      <!-- ── E-MOBILITY PARTNERS ── -->
+      <div class="partner-section-label">E-Mobility Partners</div>
+
+      <div class="partner-card" style="text-align:center">
+        <img class="pc-logo-sm" src="../images/spiro/Spiro%20450%20M1%20Ekon.jpg" alt="Spiro M1 Ekon">
+        <h3>Spiro</h3>
+        <p class="pc-why">Electric motorcycle manufacturer with the largest battery-swap network in Kenya. Zero charging downtime keeps riders earning.</p>
+        <p class="pc-value">Swappable batteries eliminate range anxiety. Lowest daily financing rate in our fleet — ideal for entry-level riders maximising take-home earnings.</p>
+      </div>
+
+      <div class="partner-card" style="text-align:center">
+        <img class="pc-logo-sm" src="../images/cheche/cheche%20bike%20electric%2013.jpg" alt="Cheche TailG">
+        <h3>Cheche</h3>
+        <p class="pc-why">Kenya-built electric motorcycle with extended range and rapid charging. Designed specifically for African roads and urban delivery conditions.</p>
+        <p class="pc-value">Extended range means fewer charging stops during peak delivery hours. Local manufacturing ensures faster spare parts availability and lower maintenance costs.</p>
+      </div>
+
+      <div class="partner-card" style="text-align:center">
+        <img class="pc-logo-sm" src="../images/tankvolt/TankVolt%20T21-RED.jpg" alt="Tankvolt T21">
+        <h3>Tankvolt</h3>
+        <p class="pc-why">High-performance electric motorcycle with 2,200-cycle battery life and 88 km/h top speed. Built for serious daily delivery volumes.</p>
+        <p class="pc-value">Exceptional battery longevity means lower long-term cost. Higher speed capability opens longer-distance delivery routes with premium earnings.</p>
+      </div>
+
+      <div class="partner-card" style="text-align:center">
+        <img class="pc-logo-sm" src="../images/enzi/Enzi%20G5%20(2).jpg" alt="Enzi G5 RADI">
+        <h3>Enzi</h3>
+        <p class="pc-why">Premium Kenyan e-motorcycle brand with robust build quality and long-range capability. The aspirational upgrade in our fleet.</p>
+        <p class="pc-value">Maximum daily earning potential through longer range and premium positioning. Natural upgrade path for riders who have built credit and want more.</p>
+      </div>
+
+      <!-- ── COMMUNITY PARTNERS ── -->
+      <div class="partner-section-label">Community &amp; Development</div>
+
+      <div class="partner-card" style="text-align:center;background:#061018;color:#fff">
+        <div style="width:56px;height:56px;border-radius:99px;background:var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-family:var(--font-heading);font-weight:700;font-size:0.85rem;color:var(--green-dark)">YVC</div>
+        <h3 style="color:var(--green)">Youth Voices Community (YVC)</h3>
+        <p class="pc-why" style="color:rgba(255,255,255,0.7)">Refugee-led community organisation based in Nairobi operating under the 3Ts — To Advocate, To Educate, To Empower. Builds awareness of refugee youth experiences while developing self-reliance through advocacy, education, and vocational training.</p>
+        <p class="pc-value" style="background:rgba(255,255,255,0.08);border-left-color:var(--green);color:var(--green)">YVC's refugee-led trust and community credibility is the bridge that makes our outreach meaningful. They recruit, vet, and mentor riders from within the communities we serve — ensuring inclusion is led by those who understand it best.</p>
+      </div>
+
+      <div class="partner-card" style="text-align:center;background:#061018;color:#fff">
+        <div style="width:56px;height:56px;border-radius:99px;background:var(--green);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-family:var(--font-heading);font-weight:700;font-size:0.7rem;color:var(--green-dark)">JM</div>
+        <h3 style="color:var(--green)">Jiwambe</h3>
+        <p class="pc-why" style="color:rgba(255,255,255,0.7)">E-mobility financing platform providing accessible credit for e-motorbikes and business tools with flexible daily payments. Based in Nairobi.</p>
+        <p class="pc-value" style="background:rgba(255,255,255,0.08);border-left-color:var(--green);color:var(--green)">Jiwambe's flexible financing model aligns perfectly with our refugee-first approach — enabling riders to access e-motorbikes with minimal upfront costs and pay-as-you-earn daily installments.</p>
+      </div>
+
+    </div>
+
+    <!-- ── BRAND SHOWCASE ── -->
+    <div class="brand-showcase">
+      <h3>Our Ecosystem — Partner Brands</h3>
+      <div class="brand-row">
+        <span class="brand-name" style="color:#34E27A">Bolt</span>
+        <span class="brand-sep">·</span>
+        <span class="brand-name" style="color:#FFC01E">Glovo</span>
+        <span class="brand-sep">·</span>
+        <span class="brand-name" style="color:#000000">Uber</span>
+        <span class="brand-sep">·</span>
+        <span class="brand-name" style="color:#06C167">Uber Eats</span>
+        <span class="brand-sep">·</span>
+        <span class="brand-name" style="color:#E63946">Faras</span>
+        <span class="brand-sep">·</span>
+        <span class="brand-name" style="color:#00A859">Spiro</span>
+        <span class="brand-sep">·</span>
+        <span class="brand-name" style="color:#F15A24">Cheche</span>
+        <span class="brand-sep">·</span>
+        <span class="brand-name" style="color:#E2361C">Tankvolt</span>
+        <span class="brand-sep">·</span>
+        <span class="brand-name" style="color:#1B4332">Enzi</span>
+        <span class="brand-sep">·</span>
+        <span class="brand-name" style="color:#002B5C">Ampersand</span>
+        <span class="brand-sep">·</span>
+        <span class="brand-name" style="color:#F4A261">YVC</span>
+        <span class="brand-sep">·</span>
+        <span class="brand-name" style="color:#4de1a1">Jiwambe</span>
+      </div>
+    </div>
+  </section>
+
+  <footer id="global-footer"></footer>
+  <script src="../js/components.js"></script>
+</body>
+</html>

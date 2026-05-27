@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Motorcycle Details — SOrvReign MotoLift</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .detail-hero { position: relative; padding: 0; background: #061018; }
+
+    .carousel-container { position: relative; width: 100%; max-width: 900px; margin: 0 auto; overflow: hidden; }
+    .carousel-track { display: flex; transition: transform 0.4s ease; }
+    .carousel-slide { min-width: 100%; aspect-ratio: 16/10; }
+    .carousel-slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); z-index: 10;
+      background: rgba(0,0,0,0.45); color: #fff; border: none; width: 44px; height: 44px;
+      border-radius: 50%; cursor: pointer; font-size: 1.3rem; display: flex; align-items: center;
+      justify-content: center; transition: background 0.2s; }
+    .carousel-btn:hover { background: rgba(0,0,0,0.7); }
+    .carousel-prev { left: 16px; }
+    .carousel-next { right: 16px; }
+
+    .carousel-dots { display: flex; justify-content: center; gap: 8px; padding: 12px 0; background: #061018; }
+    .carousel-dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.25);
+      border: none; cursor: pointer; transition: background 0.2s; }
+    .carousel-dot.active { background: var(--green); }
+
+    .detail-badge { display: inline-block; padding: 4px 14px; border-radius: 99px; font-size: 0.75rem;
+      font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+    .detail-badge.electric { background: var(--green-light); color: var(--green); }
+    .detail-badge.petrol { background: #fff3e0; color: #e65100; }
+
+    .detail-section { max-width: 900px; margin: 0 auto; padding: 48px 24px; }
+    .detail-section h2 { font-family: var(--font-heading); font-size: 1.6rem; margin-bottom: 24px; }
+
+    .detail-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .detail-header h1 { font-family: var(--font-heading); font-size: 2rem; }
+    .detail-sub { color: var(--text-muted); font-size: 1rem; margin-top: 4px; }
+
+    .specs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin-top: 24px; }
+    .spec-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px 22px; }
+    .spec-card .spec-icon { font-size: 1.5rem; margin-bottom: 8px; }
+    .spec-card .spec-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); font-weight: 600; margin-bottom: 4px; }
+    .spec-card .spec-value { font-size: 1.1rem; font-weight: 700; }
+    .spec-card .spec-sub { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
+
+    .spec-table { width: 100%; border-collapse: collapse; margin-top: 24px; }
+    .spec-table tr { border-bottom: 1px solid var(--border); }
+    .spec-table td { padding: 14px 8px; font-size: 0.9rem; }
+    .spec-table td:first-child { font-weight: 600; color: var(--text-muted); width: 200px; }
+
+    .detail-cta { text-align: center; padding: 64px 24px; background: #061018; color: #fff; }
+    .detail-cta h2 { font-family: var(--font-heading); font-size: 1.8rem; margin-bottom: 8px; }
+    .detail-cta p { color: rgba(255,255,255,0.6); margin-bottom: 24px; }
+
+    .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--green); text-decoration: none;
+      font-weight: 600; font-size: 0.85rem; margin-bottom: 16px; }
+    .back-link:hover { text-decoration: underline; }
+
+    @media (max-width: 600px) {
+      .specs-grid { grid-template-columns: 1fr 1fr; }
+      .detail-section { padding: 32px 16px; }
+      .detail-header h1 { font-size: 1.5rem; }
+      .carousel-btn { width: 36px; height: 36px; font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <header id="global-header"></header>
+
+  <div id="bikeDetailApp">
+    <div class="detail-hero">
+      <div style="max-width:900px;margin:0 auto;padding:16px 24px 0">
+        <a href="marketplace.html" class="back-link">← Back to Motorcycles</a>
+      </div>
+      <div class="carousel-container" id="carousel">
+        <div class="carousel-track" id="carouselTrack"></div>
+        <button class="carousel-prev carousel-btn" id="prevBtn">‹</button>
+        <button class="carousel-next carousel-btn" id="nextBtn">›</button>
+      </div>
+      <div class="carousel-dots" id="carouselDots"></div>
+    </div>
+
+    <div class="detail-section">
+      <div class="detail-header">
+        <div>
+          <h1 id="bikeName"></h1>
+          <p id="bikeSub" class="detail-sub"></p>
+        </div>
+        <span id="bikeBadge" class="detail-badge"></span>
+      </div>
+      <p id="bikeDesc" style="margin-top:16px;line-height:1.6;color:var(--text-muted);font-size:1rem;"></p>
+    </div>
+
+    <div class="detail-section" style="background:var(--bg-alt);">
+      <h2>Key Specifications at a Glance</h2>
+      <div class="specs-grid" id="specsGrid"></div>
+    </div>
+
+    <div class="detail-section">
+      <h2>Full Specifications</h2>
+      <table class="spec-table" id="fullSpecsTable"></table>
+    </div>
+
+    <div class="detail-section" style="background:var(--bg-alt);">
+      <h2>Why Choose This Motorcycle?</h2>
+      <p id="bikeWhy" style="line-height:1.7;color:var(--text-muted);font-size:1rem;"></p>
+      <ul id="bikeHighlights" style="margin-top:16px;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:12px;"></ul>
+    </div>
+
+    <div class="detail-cta">
+      <h2>Ready to ride?</h2>
+      <p>Apply now and start your journey to asset ownership.</p>
+      <a id="applyBtn" href="apply.html" class="btn" style="background:var(--green);color:var(--green-dark);font-size:1rem;padding:14px 40px;">Apply for Financing</a>
+    </div>
+  </div>
+
+  <footer id="global-footer"></footer>
+  <script src="../js/components.js"></script>
+  <script>
+    var bikes = {
+      spiro: {
+        name: 'Spiro M1 Ekon',
+        type: 'electric',
+        tag: 'Electric · Battery Swap',
+        desc: 'The Spiro M1 Ekon is Nairobi\'s most popular electric motorcycle for delivery riders. With a battery-swap network across the city, you never wait for a charge — swap at any station and get back on the road in seconds. Zero emissions, near-silent operation, and drastically lower running costs than petrol.',
+        why: 'Designed specifically for the African boda boda and delivery market, the Spiro M1 Ekon combines affordability with practical battery-swap technology. Riders save up to 60% on fuel costs compared to petrol bikes, and the swappable battery means zero downtime waiting for charging. Perfect for platform delivery work on Uber, Bolt, and Uber Eats.',
+        highlights: ['Battery-swap network', 'Zero emissions', 'Low maintenance', 'Silent operation', '60% fuel savings', 'Ideal for delivery'],
+        deposit: 'KES 10,000',
+        rate: 'From KES 270/day',
+        images: ['../images/spiro/Spiro 450 M1 Ekon.jpg', '../images/spiro/spiro-fully-assembled-1024x768.jpg', '../images/spiro/Spiro-electric-motorcycle-rider.jpeg', '../images/spiro/Spiro-electric-motorcycle-delivery.jpg', '../images/spiro/Spiro-electric-motorcycle-delivery (1).jpg'],
+        specs: [
+          { icon: '⚡', label: 'Motor Power', value: '3,000 W', sub: 'Peak 4,500 W' },
+          { icon: '🔋', label: 'Battery Capacity', value: '2.88 kWh', sub: '72V, swappable' },
+          { icon: '📏', label: 'Range', value: '70–90 km', sub: 'Per charge/swap' },
+          { icon: '⏱️', label: 'Charging Time', value: '3–4 hours', sub: 'Battery swap: instant' },
+          { icon: '💨', label: 'Top Speed', value: '65 km/h', sub: 'Governed for safety' },
+          { icon: '⚖️', label: 'Payload', value: '180 kg', sub: 'Rider + cargo' },
+        ],
+        fullSpecs: [
+          ['Motor Type', 'Brushless DC (BLDC) hub motor'],
+          ['Rated Power', '3,000 W'],
+          ['Peak Power', '4,500 W'],
+          ['Battery Type', 'Lithium-ion (LFP)'],
+          ['Battery Capacity', '2.88 kWh (72V, 40 Ah)'],
+          ['Battery Life', '2,000+ charge cycles'],
+          ['Swap System', 'Yes — Spiro swap stations across Nairobi'],
+          ['Range (Full Charge)', '70–90 km'],
+          ['Range (Per Swap)', '70–90 km'],
+          ['Charging Time (AC)', '3–4 hours (standard outlet)'],
+          ['Swap Time', 'Under 60 seconds'],
+          ['Top Speed', '65 km/h (electronically governed)'],
+          ['Acceleration (0–50 km/h)', '6.5 seconds'],
+          ['Climbing Angle', '15°'],
+          ['Brakes', 'Front disc / Rear drum'],
+          ['Tyre Size', 'Front 2.75-18 / Rear 3.00-18'],
+          ['Suspension', 'Front telescopic / Rear dual shock'],
+          ['Ground Clearance', '160 mm'],
+          ['Seat Height', '790 mm'],
+          ['Kerb Weight', '98 kg (without battery)'],
+          ['Max Payload', '180 kg (rider + cargo)'],
+          ['Warranty', '2 years (motor + controller), 1 year (battery)'],
+        ],
+      },
+      cheche: {
+        name: 'Cheche TailG',
+        type: 'electric',
+        tag: 'Electric · Extended Range',
+        desc: 'The Cheche TailG is a Kenya-assembled electric motorcycle with extended range and rapid charging capability. Built specifically for African road conditions, it combines robust construction with smart battery management for reliable daily performance.',
+        why: 'Engineered and assembled in Kenya, the Cheche TailG supports local manufacturing while delivering superior range and charging speed. Its extended battery life means fewer stops during a long delivery shift, and the rapid-charge capability gets you back to full power during a lunch break. A smart choice for riders who need maximum uptime.',
+        highlights: ['Kenya-assembled', 'Extended range', 'Rapid charge capable', 'Robust build', 'Smart BMS', 'Local support'],
+        deposit: 'KES 10,000',
+        rate: 'From KES 585/day',
+        images: ['../images/cheche/Cheche TailG.jpg', '../images/cheche/Cheche TailG-(1).jpg', '../images/cheche/cheche bike electric 13.jpg'],
+        specs: [
+          { icon: '⚡', label: 'Motor Power', value: '4,000 W', sub: 'Peak 6,000 W' },
+          { icon: '🔋', label: 'Battery Capacity', value: '3.5 kWh', sub: '72V, smart BMS' },
+          { icon: '📏', label: 'Range', value: '90–110 km', sub: 'Single charge' },
+          { icon: '⏱️', label: 'Charging Time', value: '2–3 hours', sub: 'Rapid charge capable' },
+          { icon: '💨', label: 'Top Speed', value: '75 km/h', sub: 'Adjustable governor' },
+          { icon: '⚖️', label: 'Payload', value: '200 kg', sub: 'Reinforced frame' },
+        ],
+        fullSpecs: [
+          ['Motor Type', 'Brushless DC (BLDC) mid-drive'],
+          ['Rated Power', '4,000 W'],
+          ['Peak Power', '6,000 W'],
+          ['Battery Type', 'Lithium-ion (NMC)'],
+          ['Battery Capacity', '3.5 kWh (72V, 48 Ah)'],
+          ['Battery Life', '1,500+ charge cycles'],
+          ['Range', '90–110 km'],
+          ['Charging Time (Standard)', '3–4 hours'],
+          ['Charging Time (Fast)', '2–3 hours (fast charger)'],
+          ['Top Speed', '75 km/h (adjustable governor)'],
+          ['Brakes', 'Front and rear disc'],
+          ['Tyre Size', 'Front 90/90-18 / Rear 110/90-18'],
+          ['Suspension', 'Front telescopic / Rear mono-shock'],
+          ['Ground Clearance', '170 mm'],
+          ['Seat Height', '800 mm'],
+          ['Kerb Weight', '105 kg (with battery)'],
+          ['Max Payload', '200 kg'],
+          ['Warranty', '3 years (motor), 2 years (battery)'],
+        ],
+      },
+      tankvolt: {
+        name: 'Tankvolt T21',
+        type: 'electric',
+        tag: 'Electric · High Performance',
+        desc: 'The Tankvolt T21 is a powerful urban e-motorcycle built for serious daily earners. With an 88 km/h top speed and 95–105 km range, it handles long-distance urban routes with ease. The battery is rated for 2,200 cycles — among the longest in its class.',
+        why: 'For riders who cover serious daily mileage, the Tankvolt T21 delivers class-leading battery longevity (2,200 cycles) and the highest top speed in our electric fleet. Its powerful motor handles hills and heavy loads effortlessly, while the long-range battery means fewer stops during peak delivery hours. The highest daily earning potential of any e-motorcycle in our fleet.',
+        highlights: ['2,200 cycle battery', '88 km/h top speed', 'High torque motor', 'Long range', 'Heavy duty', 'Premium build'],
+        deposit: 'KES 10,000',
+        rate: 'From KES 555/day',
+        images: ['../images/tankvolt/TankVolt T21.jpg', '../images/tankvolt/TankVolt T21-(1).jpg', '../images/tankvolt/TankVolt T21-(2).jpg', '../images/tankvolt/TankVolt T21-(3).jpg', '../images/tankvolt/TankVolt T21-RED.jpg', '../images/tankvolt/TankVolt T21-RED(1).jpg', '../images/tankvolt/TankVolt T21-RED(3).jpg', '../images/tankvolt/TankVolt T21 Series.jpg', '../images/tankvolt/Tankvolt T21 (2).jpg', '../images/tankvolt/Tankvolt T21 (3).jpg', '../images/tankvolt/Tankvolt T21 (4).jpg', '../images/tankvolt/Tankvolt T21 (5).jpg', '../images/tankvolt/Tankvolt T21 (6).jpg'],
+        specs: [
+          { icon: '⚡', label: 'Motor Power', value: '5,000 W', sub: 'Peak 8,000 W' },
+          { icon: '🔋', label: 'Battery Capacity', value: '4.32 kWh', sub: '96V, 2,200 cycles' },
+          { icon: '📏', label: 'Range', value: '95–105 km', sub: 'Single charge' },
+          { icon: '⏱️', label: 'Charging Time', value: '3–4 hours', sub: 'Standard outlet' },
+          { icon: '💨', label: 'Top Speed', value: '88 km/h', sub: 'Class-leading' },
+          { icon: '⚖️', label: 'Payload', value: '220 kg', sub: 'Heavy-duty frame' },
+        ],
+        fullSpecs: [
+          ['Motor Type', 'Brushless DC (BLDC) hub motor'],
+          ['Rated Power', '5,000 W'],
+          ['Peak Power', '8,000 W'],
+          ['Battery Type', 'Lithium-ion (LiFePO₄)'],
+          ['Battery Capacity', '4.32 kWh (96V, 45 Ah)'],
+          ['Battery Life', '2,200+ charge cycles'],
+          ['Range', '95–105 km'],
+          ['Charging Time', '3–4 hours (standard outlet)'],
+          ['Top Speed', '88 km/h (electronically governed)'],
+          ['Acceleration (0–50 km/h)', '5.2 seconds'],
+          ['Climbing Angle', '20°'],
+          ['Brakes', 'Front and rear disc with CBS'],
+          ['Tyre Size', 'Front 90/90-18 / Rear 120/80-18'],
+          ['Suspension', 'Front telescopic / Rear dual adjustable shock'],
+          ['Ground Clearance', '175 mm'],
+          ['Seat Height', '810 mm'],
+          ['Kerb Weight', '112 kg (with battery)'],
+          ['Max Payload', '220 kg'],
+          ['Warranty', '3 years (motor + controller), 2 years (battery)'],
+        ],
+      },
+      enzi: {
+        name: 'Enzi G5 RADI',
+        type: 'electric',
+        tag: 'Electric · Premium · Long Range',
+        desc: 'The Enzi G5 RADI is a premium Kenyan electric motorcycle with best-in-class range and build quality. Designed for riders who demand maximum daily earnings, it pairs a high-capacity battery with a powerful motor for exceptional performance across all terrain.',
+        why: 'As our premium electric offering, the Enzi G5 RADI represents the pinnacle of Kenyan e-mobility engineering. The large 5.2 kWh battery delivers the longest range in our fleet, allowing riders to complete full 12-hour shifts without recharging. The robust construction and high payload capacity make it ideal for both passenger transport and heavy cargo delivery.',
+        highlights: ['Longest range in fleet', 'Premium Kenyan build', 'High payload 250 kg', '12-hour shift capable', 'Dual battery ready', '5 year frame warranty'],
+        deposit: 'KES 15,000',
+        rate: 'From KES 675/day',
+        images: ['../images/enzi/Enzi G5 (2).jpg', '../images/enzi/enzi G5%.jpg', '../images/enzi/enzi g5 (3).jpg'],
+        specs: [
+          { icon: '⚡', label: 'Motor Power', value: '6,000 W', sub: 'Peak 9,000 W' },
+          { icon: '🔋', label: 'Battery Capacity', value: '5.2 kWh', sub: '96V, high density' },
+          { icon: '📏', label: 'Range', value: '110–130 km', sub: 'Best in class' },
+          { icon: '⏱️', label: 'Charging Time', value: '3–4 hours', sub: 'Fast charge optional' },
+          { icon: '💨', label: 'Top Speed', value: '85 km/h', sub: 'Dual-mode governor' },
+          { icon: '⚖️', label: 'Payload', value: '250 kg', sub: 'Reinforced chassis' },
+        ],
+        fullSpecs: [
+          ['Motor Type', 'Brushless DC (BLDC) mid-drive'],
+          ['Rated Power', '6,000 W'],
+          ['Peak Power', '9,000 W'],
+          ['Battery Type', 'Lithium-ion (NMC high-density)'],
+          ['Battery Capacity', '5.2 kWh (96V, 54 Ah)'],
+          ['Battery Life', '1,800+ charge cycles'],
+          ['Range', '110–130 km'],
+          ['Charging Time (Standard)', '3–4 hours'],
+          ['Charging Time (Fast)', '1.5 hours (optional fast charger)'],
+          ['Top Speed', '85 km/h (dual-mode governor)'],
+          ['Acceleration (0–50 km/h)', '4.8 seconds'],
+          ['Climbing Angle', '22°'],
+          ['Brakes', 'Front and rear disc with ABS'],
+          ['Tyre Size', 'Front 100/90-18 / Rear 130/80-18'],
+          ['Suspension', 'Front upside-down fork / Rear mono-shock with linkage'],
+          ['Ground Clearance', '180 mm'],
+          ['Seat Height', '820 mm'],
+          ['Kerb Weight', '118 kg (with battery)'],
+          ['Max Payload', '250 kg'],
+          ['Warranty', '5 years (frame), 3 years (motor + controller), 2 years (battery)'],
+        ],
+      },
+      boxer: {
+        name: 'Boxer',
+        type: 'petrol',
+        tag: 'Petrol · Fuel-Efficient · Reliable',
+        desc: 'The Boxer is the most trusted petrol motorcycle on Kenyan roads. Fuel-efficient, easy to maintain, and built to handle the daily demands of boda boda and delivery work. Spare parts are available everywhere.',
+        why: 'The Boxer has been the backbone of Kenya\'s boda boda industry for decades. Its legendary reliability, ubiquitous spare parts availability, and excellent fuel economy make it a safe choice for riders who prefer tried-and-tested technology. Every mechanic in Kenya knows how to service a Boxer.',
+        highlights: ['Legendary reliability', 'Parts available everywhere', 'Excellent fuel economy', '40–50 km/L', 'Easy to maintain', 'Proven over decades'],
+        deposit: 'KES 10,000',
+        rate: 'KES 450/day',
+        images: ['../images/petrol/boxer mortocycles.jpg'],
+        specs: [
+          { icon: '🏍️', label: 'Engine', value: '125 cc', sub: '4-stroke, single cylinder' },
+          { icon: '⛽', label: 'Fuel Tank', value: '12 L', sub: 'Reserve: 1.5 L' },
+          { icon: '📏', label: 'Mileage', value: '40–50 km/L', sub: 'Mixed conditions' },
+          { icon: '💨', label: 'Top Speed', value: '95 km/h', sub: 'Cruise: 60–70 km/h' },
+          { icon: '⚖️', label: 'Payload', value: '180 kg', sub: 'Rider + cargo' },
+          { icon: '🔧', label: 'Service Interval', value: 'Every 3,000 km', sub: 'Oil change every 1,500 km' },
+        ],
+        fullSpecs: [
+          ['Engine Type', '4-stroke, air-cooled, single cylinder'],
+          ['Displacement', '124.6 cc'],
+          ['Max Power', '8.5 HP @ 7,500 rpm'],
+          ['Max Torque', '9.5 N·m @ 5,500 rpm'],
+          ['Fuel System', 'Carburetor (CV type)'],
+          ['Fuel Tank Capacity', '12 L (1.5 L reserve)'],
+          ['Mileage (City)', '40–45 km/L'],
+          ['Mileage (Highway)', '45–50 km/L'],
+          ['Top Speed', '95 km/h'],
+          ['Transmission', '5-speed manual (1-down, 4-up)'],
+          ['Clutch', 'Wet, multi-plate'],
+          ['Starting', 'Electric + kick start'],
+          ['Brakes', 'Front disc / Rear drum'],
+          ['Tyre Size', 'Front 2.75-18 / Rear 3.50-18'],
+          ['Suspension', 'Front telescopic / Rear dual shock'],
+          ['Ground Clearance', '155 mm'],
+          ['Seat Height', '780 mm'],
+          ['Kerb Weight', '115 kg'],
+          ['Max Payload', '180 kg'],
+          ['Oil Capacity', '1.1 L'],
+          ['Service Interval', 'Every 3,000 km'],
+        ],
+      },
+      tvs: {
+        name: 'TVS',
+        type: 'petrol',
+        tag: 'Petrol · Dependable · Strong Mileage',
+        desc: 'The TVS delivers strong performance with outstanding fuel mileage. Built for last-mile delivery riders who need a dependable machine that keeps running shift after shift.',
+        why: 'The TVS is engineered for maximum fuel efficiency without sacrificing reliability. Its refined engine delivers class-leading mileage, meaning more profit per kilometer for delivery riders. Combined with low maintenance costs and excellent parts availability, it offers the lowest total cost of ownership in the petrol category.',
+        highlights: ['Best-in-class mileage', 'Low maintenance costs', '55–65 km/L', 'Refined engine', 'Great parts availability', 'Low ownership cost'],
+        deposit: 'KES 10,000',
+        rate: 'KES 500/day',
+        images: ['../images/petrol/tvs mortocycles.jpg'],
+        specs: [
+          { icon: '🏍️', label: 'Engine', value: '110 cc', sub: '4-stroke, single cylinder' },
+          { icon: '⛽', label: 'Fuel Tank', value: '10 L', sub: 'Reserve: 1.2 L' },
+          { icon: '📏', label: 'Mileage', value: '55–65 km/L', sub: 'Best in class' },
+          { icon: '💨', label: 'Top Speed', value: '90 km/h', sub: 'Cruise: 50–60 km/h' },
+          { icon: '⚖️', label: 'Payload', value: '170 kg', sub: 'Rider + cargo' },
+          { icon: '🔧', label: 'Service Interval', value: 'Every 3,000 km', sub: 'Low maintenance' },
+        ],
+        fullSpecs: [
+          ['Engine Type', '4-stroke, air-cooled, single cylinder'],
+          ['Displacement', '109.7 cc'],
+          ['Max Power', '7.5 HP @ 7,000 rpm'],
+          ['Max Torque', '8.5 N·m @ 5,000 rpm'],
+          ['Fuel System', 'Carburetor (CV type)'],
+          ['Fuel Tank Capacity', '10 L (1.2 L reserve)'],
+          ['Mileage (City)', '55–60 km/L'],
+          ['Mileage (Highway)', '60–65 km/L'],
+          ['Top Speed', '90 km/h'],
+          ['Transmission', '4-speed manual (all-down)'],
+          ['Clutch', 'Wet, multi-plate'],
+          ['Starting', 'Electric + kick start'],
+          ['Brakes', 'Front disc / Rear drum'],
+          ['Tyre Size', 'Front 2.75-18 / Rear 3.00-18'],
+          ['Suspension', 'Front telescopic / Rear dual shock'],
+          ['Ground Clearance', '150 mm'],
+          ['Seat Height', '775 mm'],
+          ['Kerb Weight', '108 kg'],
+          ['Max Payload', '170 kg'],
+          ['Oil Capacity', '0.9 L'],
+          ['Service Interval', 'Every 3,000 km'],
+        ],
+      },
+      ranger: {
+        name: 'Ranger',
+        type: 'petrol',
+        tag: 'Petrol · Durable · All-Terrain',
+        desc: 'The Ranger is built for durability and longer-distance work across all terrain types. With the largest engine in our petrol lineup, it handles rough roads, hills, and heavy loads with confidence.',
+        why: 'For riders who operate outside the city center or need to carry heavy loads over rough terrain, the Ranger\'s larger 150 cc engine provides the torque and power required. Its rugged construction, higher ground clearance, and reinforced frame make it the go-to choice for rural and cross-country delivery routes. The most capable petrol bike in our fleet.',
+        highlights: ['Largest petrol engine', 'All-terrain capable', 'High torque', 'Rugged construction', 'Reinforced frame', 'Ideal for rural routes'],
+        deposit: 'KES 10,000',
+        rate: 'KES 420/day',
+        images: ['../images/petrol/ranger mortocycles.jpg'],
+        specs: [
+          { icon: '🏍️', label: 'Engine', value: '150 cc', sub: '4-stroke, single cylinder' },
+          { icon: '⛽', label: 'Fuel Tank', value: '14 L', sub: 'Long-range riding' },
+          { icon: '📏', label: 'Mileage', value: '35–45 km/L', sub: 'Mixed conditions' },
+          { icon: '💨', label: 'Top Speed', value: '100 km/h', sub: 'Cruise: 60–80 km/h' },
+          { icon: '⚖️', label: 'Payload', value: '200 kg', sub: 'Reinforced frame' },
+          { icon: '🔧', label: 'Service Interval', value: 'Every 3,000 km', sub: 'Heavy-duty parts' },
+        ],
+        fullSpecs: [
+          ['Engine Type', '4-stroke, air-cooled, single cylinder'],
+          ['Displacement', '149.5 cc'],
+          ['Max Power', '11.5 HP @ 7,500 rpm'],
+          ['Max Torque', '12.5 N·m @ 5,500 rpm'],
+          ['Fuel System', 'Carburetor (CV type)'],
+          ['Fuel Tank Capacity', '14 L (2 L reserve)'],
+          ['Mileage (City)', '35–40 km/L'],
+          ['Mileage (Highway)', '40–45 km/L'],
+          ['Top Speed', '100 km/h'],
+          ['Transmission', '5-speed manual (1-down, 4-up)'],
+          ['Clutch', 'Wet, multi-plate'],
+          ['Starting', 'Electric + kick start'],
+          ['Brakes', 'Front disc / Rear drum'],
+          ['Tyre Size', 'Front 90/90-18 / Rear 110/90-18'],
+          ['Suspension', 'Front telescopic / Rear dual adjustable shock'],
+          ['Ground Clearance', '170 mm'],
+          ['Seat Height', '800 mm'],
+          ['Kerb Weight', '125 kg'],
+          ['Max Payload', '200 kg'],
+          ['Oil Capacity', '1.2 L'],
+          ['Service Interval', 'Every 3,000 km'],
+        ],
+      },
+    };
+
+    var params = new URLSearchParams(window.location.search);
+    var bikeKey = params.get('bike') || 'spiro';
+    var bike = bikes[bikeKey];
+
+    if (!bike) {
+      document.getElementById('bikeDetailApp').innerHTML = '<div style="text-align:center;padding:80px 24px"><h2>Motorcycle not found</h2><p style="color:var(--text-muted);margin-top:8px"><a href="marketplace.html">Browse all motorcycles</a></p></div>';
+    } else {
+      document.title = bike.name + ' — SOrvReign MotoLift';
+      document.getElementById('bikeName').textContent = bike.name;
+      document.getElementById('bikeSub').textContent = bike.tag;
+      document.getElementById('bikeDesc').textContent = bike.desc;
+      document.getElementById('bikeWhy').textContent = bike.why;
+      document.getElementById('bikeBadge').textContent = bike.type.charAt(0).toUpperCase() + bike.type.slice(1);
+      document.getElementById('bikeBadge').className = 'detail-badge ' + bike.type;
+      document.getElementById('applyBtn').href = 'apply.html?bike=' + bikeKey;
+
+      // Highlights
+      var highlightsEl = document.getElementById('bikeHighlights');
+      bike.highlights.forEach(function (h) {
+        var li = document.createElement('li');
+        li.innerHTML = '<span style="color:var(--green);margin-right:8px">✓</span>' + h;
+        li.style.cssText = 'padding:8px 12px;background:var(--card);border-radius:8px;border:1px solid var(--border);font-size:0.9rem;';
+        highlightsEl.appendChild(li);
+      });
+
+      // Spec cards
+      var specsGrid = document.getElementById('specsGrid');
+      bike.specs.forEach(function (s) {
+        var div = document.createElement('div');
+        div.className = 'spec-card';
+        div.innerHTML = '<div class="spec-icon">' + s.icon + '</div><div class="spec-label">' + s.label + '</div><div class="spec-value">' + s.value + '</div><div class="spec-sub">' + s.sub + '</div>';
+        specsGrid.appendChild(div);
+      });
+
+      // Full spec table
+      var table = document.getElementById('fullSpecsTable');
+      bike.fullSpecs.forEach(function (row) {
+        var tr = document.createElement('tr');
+        tr.innerHTML = '<td>' + row[0] + '</td><td>' + row[1] + '</td>';
+        table.appendChild(tr);
+      });
+
+      // Carousel
+      var track = document.getElementById('carouselTrack');
+      var dots = document.getElementById('carouselDots');
+      var current = 0;
+
+      bike.images.forEach(function (src, i) {
+        var slide = document.createElement('div');
+        slide.className = 'carousel-slide';
+        var img = document.createElement('img');
+        img.src = src;
+        img.alt = bike.name + ' image ' + (i + 1);
+        img.onerror = function () { this.parentElement.style.display = 'none'; };
+        slide.appendChild(img);
+        track.appendChild(slide);
+
+        var dot = document.createElement('button');
+        dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('data-index', i);
+        dot.addEventListener('click', function () { goTo(parseInt(this.getAttribute('data-index'))); });
+        dots.appendChild(dot);
+      });
+
+      var totalSlides = bike.images.length;
+
+      function goTo(index) {
+        current = index;
+        track.style.transform = 'translateX(-' + (current * 100) + '%)';
+        document.querySelectorAll('.carousel-dot').forEach(function (d, i) {
+          d.classList.toggle('active', i === current);
+        });
+      }
+
+      document.getElementById('prevBtn').addEventListener('click', function () {
+        goTo((current - 1 + totalSlides) % totalSlides);
+      });
+      document.getElementById('nextBtn').addEventListener('click', function () {
+        goTo((current + 1) % totalSlides);
+      });
+
+      // Touch swipe
+      var startX = 0;
+      var carousel = document.getElementById('carousel');
+      carousel.addEventListener('touchstart', function (e) { startX = e.touches[0].clientX; });
+      carousel.addEventListener('touchend', function (e) {
+        var diff = startX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 50) {
+          diff > 0 ? goTo((current + 1) % totalSlides) : goTo((current - 1 + totalSlides) % totalSlides);
+        }
+      });
+    }
+  </script>
+</body>
+</html>

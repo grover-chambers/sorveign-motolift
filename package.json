@@ -1,0 +1,24 @@
+{
+  "name": "sovreign-motolift-platform",
+  "version": "1.0.0",
+  "description": "SOrvReign MotoLift — Mobility-to-income ecosystem for refugees and underserved youth in Kenya",
+  "private": true,
+  "workspaces": [
+    "apps/rider",
+    "apps/admin",
+    "api",
+    "shared"
+  ],
+  "scripts": {
+    "install:all": "npm install && npm install --prefix apps/rider && npm install --prefix apps/admin && npm install --prefix api",
+    "dev:api": "npm run dev --prefix api",
+    "dev:rider": "npm run dev --prefix apps/rider",
+    "dev:admin": "npm run dev --prefix apps/admin",
+    "dev:website": "npx serve website -p 8080",
+    "build:rider": "npm run build --prefix apps/rider",
+    "build:admin": "npm run build --prefix apps/admin"
+  },
+  "devDependencies": {
+    "vercel": "^54.5.0"
+  }
+}
