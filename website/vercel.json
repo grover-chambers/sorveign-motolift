@@ -1,4 +1,6 @@
 {
+  "installCommand": "",
+  "buildCommand": "",
   "rewrites": [
     { "source": "/apply", "destination": "/index.html" },
     { "source": "/motorcycles", "destination": "/index.html" },
@@ -9,8 +11,5 @@
     { "source": "/terms", "destination": "/pages/terms.html" },
     { "source": "/cookies", "destination": "/pages/cookies.html" },
     { "source": "/bike-details", "destination": "/pages/bike-details.html" }
-  ],
-  "build": {
-    "command": "sed -i 's|__API_URL__|'\"$API_URL\"'|g' index.html pages/bike-details.html pages/apply.html 2>/dev/null; sed -i 's|__API_URL__|'\"$API_URL\"'|g' index.html"
-  }
+  ]
 }
